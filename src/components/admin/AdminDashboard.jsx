@@ -26,18 +26,20 @@ import {
   Legend
 } from "recharts";
 export const AdminDashboard = () => {
-  const { setActiveTab } = useApp();
+  const { setActiveTab, t } = useApp();
   const kpis = AnalyticsService.getKPIs();
   const departments = AnalyticsService.getDepartments();
   const emergingSkills = AnalyticsService.getEmergingSkills();
   const insights = AnalyticsService.getWorkforceInsights();
   const [showReportModal, setShowReportModal] = useState(false);
   const [reportData, setReportData] = useState(null);
+
   const handleGenerateReport = () => {
     const report = AnalyticsService.generateExecutiveReport();
     setReportData(report);
     setShowReportModal(true);
   };
+
   const deptChartData = departments.map((d) => ({
     name: d.code,
     fullName: d.name,
@@ -45,10 +47,10 @@ export const AdminDashboard = () => {
     aiReadiness: d.aiReadiness,
     completion: d.trainingCompletion
   }));
-  return <div className="space-y-6 max-w-7xl mx-auto">
-      {
-    /* Executive Admin Banner */
-  }
+
+  return (
+    <div className="space-y-6 max-w-7xl mx-auto">
+      {/* Executive Admin Banner */}
       <div className="bg-gradient-to-r from-gov-navyDark via-slate-900 to-indigo-950 rounded-2xl p-6 sm:p-8 text-white shadow-xl border border-slate-700 relative overflow-hidden">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2">
@@ -57,26 +59,25 @@ export const AdminDashboard = () => {
               MoSPI Executive Intelligence & Workforce Analytics
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
-              Workforce Skill Intelligence Portal
+              {t("adminPortalTitle")}
             </h1>
             <p className="text-slate-300 text-sm max-w-2xl">
-              Real-time enterprise skill mapping, predictive AI competency forecasting, and training effectiveness 
-              across <strong className="text-white font-bold">2,486 statistical officers</strong> in India's Official Statistical System.
+              {t("adminPortalSubtitle")}
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
             <button
-    onClick={handleGenerateReport}
-    className="px-5 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-slate-950 font-extrabold text-xs shadow-lg shadow-amber-500/20 flex items-center gap-2 transition-all whitespace-nowrap"
-  >
+              onClick={handleGenerateReport}
+              className="px-5 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-slate-950 font-extrabold text-xs shadow-lg shadow-amber-500/20 flex items-center gap-2 transition-all whitespace-nowrap"
+            >
               <FileText className="w-4 h-4 text-slate-950" />
-              <span>Generate Workforce Report</span>
+              <span>{t("generateReportBtn")}</span>
             </button>
             <button
-    onClick={() => setActiveTab("emerging-skills")}
-    className="px-4 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs border border-slate-600 flex items-center gap-2 transition-all"
-  >
+              onClick={() => setActiveTab("emerging-skills")}
+              className="px-4 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs border border-slate-600 flex items-center gap-2 transition-all"
+            >
               <Zap className="w-4 h-4 text-amber-400" />
               <span>AI Predictions</span>
             </button>
@@ -84,67 +85,65 @@ export const AdminDashboard = () => {
         </div>
       </div>
 
-      {
-    /* 6 Executive KPIs */
-  }
+      {/* 6 Executive KPIs */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         <StatCard
-    title="Total Officials"
-    value={kpis.totalOfficials.toLocaleString()}
-    subtitle="Across 6 Divisions"
-    icon={Users}
-    iconColor="text-blue-600"
-    bgColor="bg-blue-50"
-    onClick={() => setActiveTab("workforce-intelligence")}
-  />
+          title={t("totalOfficials")}
+          value={kpis.totalOfficials.toLocaleString()}
+          subtitle="Across 6 Divisions"
+          icon={Users}
+          iconColor="text-blue-600"
+          bgColor="bg-blue-50"
+          onClick={() => setActiveTab("workforce-intelligence")}
+        />
         <StatCard
-    title="Avg Competency"
-    value={`${kpis.avgCompetency}%`}
-    subtitle="Target: 75%"
-    icon={Award}
-    trend={{ value: "+3.2% YoY", isPositive: true }}
-    iconColor="text-emerald-600"
-    bgColor="bg-emerald-50"
-    onClick={() => setActiveTab("competency-analytics")}
-  />
+          title={t("avgCompetency")}
+          value={`${kpis.avgCompetency}%`}
+          subtitle="Target: 75%"
+          icon={Award}
+          trend={{ value: "+3.2% YoY", isPositive: true }}
+          iconColor="text-emerald-600"
+          bgColor="bg-emerald-50"
+          onClick={() => setActiveTab("competency-analytics")}
+        />
         <StatCard
-    title="Critical Skill Gaps"
-    value={kpis.criticalSkillGaps}
-    subtitle="14 Gaps Identified"
-    icon={TrendingDown}
-    iconColor="text-rose-600"
-    bgColor="bg-rose-50"
-    badge="Urgent"
-    onClick={() => setActiveTab("skill-gap-analytics")}
-  />
+          title={t("criticalSkillGaps")}
+          value={kpis.criticalSkillGaps}
+          subtitle="14 Gaps Identified"
+          icon={TrendingDown}
+          iconColor="text-rose-600"
+          bgColor="bg-rose-50"
+          badge="Urgent"
+          onClick={() => setActiveTab("skill-gap-analytics")}
+        />
         <StatCard
-    title="Training Completion"
-    value={`${kpis.trainingCompletion}%`}
-    subtitle="iGOT + NSSTA"
-    icon={BookOpenCheck}
-    trend={{ value: "+8.4%", isPositive: true }}
-    iconColor="text-indigo-600"
-    bgColor="bg-indigo-50"
-    onClick={() => setActiveTab("training-analytics")}
-  />
+          title={t("trainingCompletion")}
+          value={`${kpis.trainingCompletion}%`}
+          subtitle="iGOT + NSSTA"
+          icon={BookOpenCheck}
+          trend={{ value: "+8.4%", isPositive: true }}
+          iconColor="text-indigo-600"
+          bgColor="bg-indigo-50"
+          onClick={() => setActiveTab("training-analytics")}
+        />
         <StatCard
-    title="AI/ML Readiness"
-    value={`${kpis.aiReadiness}%`}
-    subtitle="Target: 70%"
-    icon={Cpu}
-    iconColor="text-purple-600"
-    bgColor="bg-purple-50"
-    badge="Priority"
-    onClick={() => setActiveTab("emerging-skills")}
-  />
+          title={t("aiReadiness")}
+          value={`${kpis.aiReadiness}%`}
+          subtitle="Target: 70%"
+          icon={Cpu}
+          iconColor="text-purple-600"
+          bgColor="bg-purple-50"
+          badge="Priority"
+          onClick={() => setActiveTab("emerging-skills")}
+        />
         <StatCard
-    title="Learning Hours"
-    value={kpis.learningHours.toLocaleString()}
-    subtitle="18.6k Completed"
-    icon={Clock}
-    iconColor="text-amber-600"
-    bgColor="bg-amber-50"
-  />
+          title="Learning Hours"
+          value={kpis.learningHours.toLocaleString()}
+          subtitle="18.6k Completed"
+          icon={Clock}
+          iconColor="text-amber-600"
+          bgColor="bg-amber-50"
+        />
       </div>
 
       {
@@ -345,5 +344,6 @@ export const AdminDashboard = () => {
             </div>
           </div>
         </div>}
-    </div>;
+    </div>
+  );
 };

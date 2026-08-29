@@ -16,17 +16,16 @@ import {
   ResponsiveContainer
 } from "recharts";
 export const MyAssessments = () => {
-  const { assessmentHistory, setActiveTab } = useApp();
+  const { assessmentHistory, setActiveTab, t } = useApp();
   const chartData = [...assessmentHistory].reverse().map((att, idx) => ({
     name: `Test ${idx + 1}`,
     score: att.percentage,
     date: att.date
   }));
   const avgScore = assessmentHistory.length ? Math.round(assessmentHistory.reduce((acc, a) => acc + a.percentage, 0) / assessmentHistory.length) : 0;
-  return <div className="space-y-6 max-w-6xl mx-auto">
-      {
-    /* Header */
-  }
+  return (
+    <div className="space-y-6 max-w-6xl mx-auto">
+      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2.5">
@@ -39,17 +38,15 @@ export const MyAssessments = () => {
         </div>
 
         <button
-    onClick={() => setActiveTab("quiz-generator")}
-    className="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center gap-2 shadow-sm transition-all self-start sm:self-auto"
-  >
+          onClick={() => setActiveTab("quiz-generator")}
+          className="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center gap-2 shadow-sm transition-all self-start sm:self-auto"
+        >
           <Sparkles className="w-4 h-4 text-amber-300" />
           <span>Take New AI Quiz</span>
         </button>
       </div>
 
-      {
-    /* Analytics Summary */
-  }
+      {/* Analytics Summary */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
           <p className="text-xs font-semibold text-slate-500 uppercase">Total Assessments</p>
@@ -76,10 +73,9 @@ export const MyAssessments = () => {
         </div>
       </div>
 
-      {
-    /* Longitudinal Score Trend Line Chart */
-  }
-      {chartData.length > 0 && <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+      {/* Longitudinal Score Trend Line Chart */}
+      {chartData.length > 0 && (
+        <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
           <div className="flex items-center justify-between mb-4">
             <div>
               <h3 className="font-bold text-slate-900 text-base">Longitudinal Score Trajectory</h3>
@@ -97,29 +93,27 @@ export const MyAssessments = () => {
                 <XAxis dataKey="name" tick={{ fill: "#64748b", fontSize: 11 }} />
                 <YAxis domain={[0, 100]} tick={{ fill: "#64748b", fontSize: 11 }} />
                 <Tooltip
-    contentStyle={{
-      backgroundColor: "#0f172a",
-      color: "#fff",
-      borderRadius: "8px",
-      fontSize: "12px"
-    }}
-  />
+                  contentStyle={{
+                    backgroundColor: "#0f172a",
+                    color: "#fff",
+                    borderRadius: "8px",
+                    fontSize: "12px"
+                  }}
+                />
                 <Line
-    type="monotone"
-    dataKey="score"
-    stroke="#2563eb"
-    strokeWidth={3}
-    dot={{ r: 5, fill: "#3b82f6" }}
-    activeDot={{ r: 7 }}
-  />
+                  type="monotone"
+                  dataKey="score"
+                  stroke="#2563eb"
+                  strokeWidth={3}
+                  dot={{ r: 5, fill: "#3b82f6" }}
+                  activeDot={{ r: 7 }}
+                />
               </LineChart>
             </ResponsiveContainer>
           </div>
-        </div>}
+        </div>
+      )}
 
-      {
-    /* Assessment History Table */
-  }
       {/* Assessment History Table / Empty State */}
       <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
         <div className="p-5 border-b border-slate-100 flex items-center justify-between">
@@ -133,9 +127,9 @@ export const MyAssessments = () => {
               <Sparkles className="w-8 h-8 text-blue-600" />
             </div>
             <div className="max-w-md mx-auto space-y-1">
-              <h4 className="font-bold text-slate-900 text-base">No Assessments Completed Yet</h4>
+              <h4 className="font-bold text-slate-900 text-base">{t("noAssessmentsTitle") || "No Assessments Completed Yet"}</h4>
               <p className="text-xs text-slate-500">
-                You haven't completed any psychometric assessments yet. Take the official diagnostic or generate a topic quiz from training manuals to calibrate your baseline scores!
+                {t("noAssessmentsSubtitle") || "You haven't completed any psychometric assessments yet. Take the official diagnostic or generate a topic quiz from training manuals to calibrate your baseline scores!"}
               </p>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
@@ -144,13 +138,13 @@ export const MyAssessments = () => {
                 className="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-md flex items-center gap-2 transition-all"
               >
                 <Sparkles className="w-4 h-4 text-amber-300" />
-                <span>Start AI Diagnostic Assessment</span>
+                <span>{t("takeAssessmentBtn") || "Start AI Diagnostic Assessment"}</span>
               </button>
               <button
                 onClick={() => setActiveTab("quiz-generator")}
                 className="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs border border-slate-300 flex items-center gap-2 transition-all"
               >
-                <span>Upload Material for Quiz</span>
+                <span>{t("uploadDocTitle") || "Upload Material for Quiz"}</span>
               </button>
             </div>
           </div>
@@ -196,5 +190,6 @@ export const MyAssessments = () => {
           </div>
         )}
       </div>
-    </div>;
+    </div>
+  );
 };

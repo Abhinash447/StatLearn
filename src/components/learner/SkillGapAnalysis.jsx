@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 
 export const SkillGapAnalysis = () => {
-  const { skillGaps, user, setActiveTab } = useApp();
+  const { skillGaps, user, setActiveTab, t } = useApp();
   const [selectedPriority, setSelectedPriority] = useState("all");
 
   const filteredGaps = skillGaps.filter((g) => {
@@ -32,10 +32,10 @@ export const SkillGapAnalysis = () => {
         <div>
           <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2.5">
             <TrendingDown className="w-7 h-7 text-rose-600" />
-            Assessment-Driven Skill Gap Analysis
+            {t("skillGapTitle")}
           </h1>
           <p className="text-xs text-slate-500 mt-1">
-            Empirical capability deficits identified strictly from your completed diagnostic and topic assessments for {user?.designation || "Statistical Officer"}.
+            {t("skillGapSubtitle")}
           </p>
         </div>
 
@@ -44,7 +44,7 @@ export const SkillGapAnalysis = () => {
           className="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center gap-2 shadow-sm transition-all self-start sm:self-auto"
         >
           <Sparkles className="w-4 h-4 text-amber-300" />
-          <span>{skillGaps.length === 0 ? "Take AI Assessment" : "View Targeted Roadmap"}</span>
+          <span>{skillGaps.length === 0 ? (t("takeAssessmentBtn") || "Take AI Assessment") : (t("viewLearningPathBtn") || "View Targeted Roadmap")}</span>
         </button>
       </div>
 
@@ -55,9 +55,9 @@ export const SkillGapAnalysis = () => {
             <Sparkles className="w-8 h-8 text-blue-600" />
           </div>
           <div className="space-y-2">
-            <h3 className="text-xl font-extrabold text-slate-900">No Skill Gaps Identified Yet</h3>
+            <h3 className="text-xl font-extrabold text-slate-900">{t("noGapsIdentified") || "No Skill Gaps Identified Yet"}</h3>
             <p className="text-xs sm:text-sm text-slate-500 leading-relaxed max-w-lg mx-auto">
-              StatSkill AI identifies skill gaps strictly through empirical evaluation of your answers rather than arbitrary assumptions. Complete your initial 10-question AI Diagnostic Assessment to calibrate your matrix.
+              {t("noGapsSubtitle") || "StatSkill AI identifies skill gaps strictly through empirical evaluation of your answers rather than arbitrary assumptions. Complete your initial 10-question AI Diagnostic Assessment to calibrate your matrix."}
             </p>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
@@ -66,13 +66,13 @@ export const SkillGapAnalysis = () => {
               className="px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-xs shadow-lg shadow-blue-500/20 flex items-center gap-2 transition-all"
             >
               <Sparkles className="w-4 h-4 text-amber-300" />
-              <span>Take AI Diagnostic Assessment (10 Questions)</span>
+              <span>{t("takeAssessmentBtn") || "Take AI Diagnostic Assessment (10 Questions)"}</span>
             </button>
             <button
               onClick={() => setActiveTab("quiz-generator")}
               className="px-5 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs border border-slate-300 flex items-center gap-2 transition-all"
             >
-              <span>Upload Document for AI Quiz</span>
+              <span>{t("tryDemoBtn") || "Upload Document for AI Quiz"}</span>
             </button>
           </div>
         </div>
@@ -89,7 +89,7 @@ export const SkillGapAnalysis = () => {
               }`}
             >
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-rose-800 uppercase">Critical Gaps</span>
+                <span className="text-xs font-bold text-rose-800 uppercase">{t("criticalGaps") || "Critical Gaps"}</span>
                 <span className="text-xs text-rose-600 bg-rose-100 px-2 py-0.5 rounded-full font-bold">41%+ Deficit</span>
               </div>
               <p className="text-2xl font-black text-rose-700 mt-1">{criticalCount}</p>
@@ -107,7 +107,7 @@ export const SkillGapAnalysis = () => {
               }`}
             >
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-amber-800 uppercase">High Priority</span>
+                <span className="text-xs font-bold text-amber-800 uppercase">{t("highPriority") || "High Priority"}</span>
                 <span className="text-xs text-amber-600 bg-amber-100 px-2 py-0.5 rounded-full font-bold">26–40% Deficit</span>
               </div>
               <p className="text-2xl font-black text-amber-700 mt-1">{highCount}</p>
@@ -125,7 +125,7 @@ export const SkillGapAnalysis = () => {
               }`}
             >
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-blue-800 uppercase">Medium Priority</span>
+                <span className="text-xs font-bold text-blue-800 uppercase">{t("mediumPriority") || "Medium Priority"}</span>
                 <span className="text-xs text-blue-600 bg-blue-100 px-2 py-0.5 rounded-full font-bold">11–25% Deficit</span>
               </div>
               <p className="text-2xl font-black text-blue-700 mt-1">{mediumCount}</p>
@@ -143,7 +143,7 @@ export const SkillGapAnalysis = () => {
               }`}
             >
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-emerald-800 uppercase">Low / Minor</span>
+                <span className="text-xs font-bold text-emerald-800 uppercase">{t("lowPriority") || "Low / Minor"}</span>
                 <span className="text-xs text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-full font-bold">1–10% Deficit</span>
               </div>
               <p className="text-2xl font-black text-emerald-700 mt-1">{lowCount}</p>
@@ -207,7 +207,7 @@ export const SkillGapAnalysis = () => {
                         </span>
                         {gap.lastAssessed && (
                           <span className="text-[10px] bg-blue-50 text-blue-700 font-semibold px-2 py-0.5 rounded-md">
-                            Assessed: {gap.lastAssessed}
+                            {t("currentScore") || "Assessed"}: {gap.lastAssessed}
                           </span>
                         )}
                       </div>
@@ -222,7 +222,7 @@ export const SkillGapAnalysis = () => {
                       </div>
 
                       <div className="flex items-center gap-2 text-xs text-slate-600">
-                        <span className="font-semibold text-slate-800">Recommended Intervention:</span>
+                        <span className="font-semibold text-slate-800">{t("recommendedAction") || "Recommended Intervention"}:</span>
                         <span>{gap.recommendedAction}</span>
                       </div>
                     </div>
@@ -231,10 +231,10 @@ export const SkillGapAnalysis = () => {
                     <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-3 flex-shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100">
                       <div className="text-right">
                         <span className={`text-2xl font-black ${gap.gap > 0 ? "text-rose-600" : "text-emerald-600"}`}>
-                          {gap.gap > 0 ? `-${gap.gap}%` : "0%"}
+                          {gap.gap > 0 ? `${gap.gap}% ${t("gapDeficit") || "Gap"}` : `0% ${t("gapDeficit") || "Gap"}`}
                         </span>
                         <p className="text-[11px] text-slate-500 font-medium">
-                          Assessed: {gap.current}% / Target: {gap.required}%
+                          {t("currentScore") || "Assessed"}: {gap.current}% / {t("roleReq") || "Target"}: {gap.required}%
                         </p>
                       </div>
 
@@ -242,7 +242,7 @@ export const SkillGapAnalysis = () => {
                         onClick={() => setActiveTab("igot-courses")}
                         className="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition-all whitespace-nowrap"
                       >
-                        <span>Remediate on iGOT</span>
+                        <span>{t("remediateIgot") || "Remediate on iGOT"}</span>
                         <ArrowRight className="w-3.5 h-3.5" />
                       </button>
                     </div>

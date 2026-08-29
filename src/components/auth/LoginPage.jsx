@@ -263,7 +263,7 @@ export const LoginPage = ({ onLoginSuccess }) => {
               }`}
             >
               <UserPlus className="w-3.5 h-3.5" />
-              <span>Create Account</span>
+              <span>{t("registerTab") || "Create Account"}</span>
             </button>
           </div>
 

@@ -22,6 +22,9 @@ export const TopBar = () => {
     logout,
     setActiveTab,
     overallCompetency,
+    isSidebarOpen,
+    setIsSidebarOpen,
+    toggleSidebar,
     t
   } = useApp();
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -60,17 +63,22 @@ export const TopBar = () => {
   }
       <div className="px-4 sm:px-6 py-2.5 flex items-center justify-between gap-4">
         {
-    /* Left: Brand Identity */
+    /* Left: Brand Identity / Interactive Logo that triggers Sidebar */
   }
-        <div className="flex items-center space-x-3 cursor-pointer" onClick={() => setActiveTab(role === "admin" ? "admin-dashboard" : "dashboard")}>
-          <div className="relative flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-tr from-amber-500 via-sky-500 to-indigo-600 p-0.5 shadow-md">
+        <div
+          className="flex items-center space-x-3 cursor-pointer group select-none relative"
+          onClick={toggleSidebar}
+          onMouseEnter={() => setIsSidebarOpen(true)}
+          title="Hover or click logo to open navigation sidebar"
+        >
+          <div className={`relative flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-tr from-amber-500 via-sky-500 to-indigo-600 p-0.5 shadow-md transition-all duration-200 group-hover:scale-105 group-hover:shadow-amber-400/20 ${isSidebarOpen ? "ring-2 ring-amber-400 scale-105" : ""}`}>
             <div className="w-full h-full bg-gov-navy rounded-[7px] flex items-center justify-center">
-              <Layers className="w-6 h-6 text-amber-400" />
+              <Layers className={`w-6 h-6 transition-colors duration-200 ${isSidebarOpen ? "text-amber-300" : "text-amber-400 group-hover:text-amber-300"}`} />
             </div>
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-lg font-bold tracking-tight text-white font-sans">
+              <span className="text-lg font-bold tracking-tight text-white font-sans group-hover:text-amber-300 transition-colors">
                 {t("appName")}
               </span>
               <span className="bg-blue-600/80 text-white text-[10px] font-semibold px-1.5 py-0.5 rounded uppercase tracking-wider">
@@ -140,14 +148,14 @@ export const TopBar = () => {
     className={`flex items-center gap-1 px-2.5 py-1 rounded transition-all ${role === "learner" ? "bg-blue-600 text-white font-semibold shadow" : "text-slate-400 hover:text-white"}`}
   >
               <UserCheck className="w-3.5 h-3.5" />
-              <span>Learner</span>
+              <span>{t("learnerRole")?.split("/")[0]?.trim() || "Learner"}</span>
             </button>
             <button
     onClick={loginAsAdmin}
     className={`flex items-center gap-1 px-2.5 py-1 rounded transition-all ${role === "admin" ? "bg-amber-500 text-slate-900 font-bold shadow" : "text-slate-400 hover:text-white"}`}
   >
               <ShieldCheck className="w-3.5 h-3.5" />
-              <span>Admin</span>
+              <span>{t("adminRole") || "Admin"}</span>
             </button>
           </div>
 

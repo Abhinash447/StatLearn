@@ -11,7 +11,52 @@ import { CompetencyEngine } from "../services/competencyEngine";
 import { RecommendationEngine } from "../services/recommendationEngine";
 import { ApiClient } from "../services/apiClient";
 import { translations } from "../translations";
-const AppContext = createContext(void 0);
+
+const defaultContextValue = {
+  isAuthenticated: false,
+  user: INITIAL_LEARNER_PROFILE,
+  role: "learner",
+  competencies: INITIAL_COMPETENCIES,
+  skillGaps: [],
+  learningPath: [],
+  igotCourses: IGOT_COURSES_CATALOG,
+  nsstaProgrammes: NSSTA_PROGRAMMES_CATALOG,
+  assessmentHistory: [],
+  activeTab: "dashboard",
+  language: "en",
+  toasts: [],
+  activeQuiz: null,
+  latestAttempt: null,
+  overallCompetency: 0,
+  overallGap: 0,
+  learningStreak: 0,
+  learningHours: 0,
+  coursesCompletedCount: 0,
+  isLoadingDb: false,
+  isSidebarOpen: false,
+  setIsSidebarOpen: () => {},
+  toggleSidebar: () => {},
+  t: (key) => (translations.en && translations.en[key]) || key,
+  setActiveTab: () => {},
+  setLanguage: () => {},
+  login: async () => ({ success: true }),
+  signup: async () => ({ success: true }),
+  loginAsLearner: () => {},
+  loginAsAdmin: () => {},
+  logout: () => {},
+  updateProfile: () => {},
+  updateCompetencyScore: () => {},
+  enrollInIGOT: () => {},
+  nominateInNSSTA: () => {},
+  startQuizSession: () => {},
+  finishQuizSession: () => {},
+  clearActiveQuiz: () => {},
+  showToast: () => {},
+  removeToast: () => {},
+  resetToInitialDemoData: () => {}
+};
+
+const AppContext = createContext(defaultContextValue);
 export const AppProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
     return localStorage.getItem("statskill_auth_v1") === "true";
@@ -59,6 +104,8 @@ export const AppProvider = ({ children }) => {
   const [rawIgotCatalog, setRawIgotCatalog] = useState(IGOT_COURSES_CATALOG);
   const [nsstaCatalog, setNsstaCatalog] = useState(NSSTA_PROGRAMMES_CATALOG);
   const [isLoadingDb, setIsLoadingDb] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
   const t = (key) => {
     const langDict = translations[language] || translations.en;
     return langDict[key] || translations.en[key] || key;
@@ -110,7 +157,8 @@ export const AppProvider = ({ children }) => {
   }).sort((a, b) => b.matchScore - a.matchScore);
   const learningPath = RecommendationEngine.generatePersonalizedLearningPath(currentUser, currentComps, rawIgotCatalog || []);
   const overallCompetency = CompetencyEngine.calculateOverallCompetency(currentComps);
-  const overallGap = Math.max(0, 100 - overallCompetency);
+  const isAssessedOfficer = currentComps.some((c) => c.lastAssessed != null || c.currentScore > 0);
+  const overallGap = !isAssessedOfficer ? 0 : Math.max(0, 100 - overallCompetency);
   const coursesCompletedCount = (igotCourses || []).filter((c) => c.isEnrolled && (c.progress ?? 0) >= 100).length;
   useEffect(() => {
     localStorage.setItem("statskill_auth_v1", String(isAuthenticated));
@@ -298,6 +346,9 @@ export const AppProvider = ({ children }) => {
       learningHours,
       coursesCompletedCount,
       isLoadingDb,
+      isSidebarOpen,
+      setIsSidebarOpen,
+      toggleSidebar,
       t,
       setActiveTab,
       setLanguage,
@@ -323,8 +374,5 @@ export const AppProvider = ({ children }) => {
 };
 export const useApp = () => {
   const context = useContext(AppContext);
-  if (!context) {
-    throw new Error("useApp must be used within an AppProvider");
-  }
-  return context;
+  return context || defaultContextValue;
 };

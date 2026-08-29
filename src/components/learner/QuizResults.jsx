@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import confetti from "canvas-confetti";
 export const QuizResults = () => {
-  const { latestAttempt, activeQuiz, setActiveTab, updateCompetencyScore, showToast } = useApp();
+  const { latestAttempt, activeQuiz, setActiveTab, updateCompetencyScore, showToast, t } = useApp();
   useEffect(() => {
     if (latestAttempt && latestAttempt.percentage >= 60) {
       try {
@@ -63,10 +63,10 @@ export const QuizResults = () => {
           Official Assessment Evaluation
         </span>
         <h1 className="text-3xl font-extrabold text-slate-900 mt-1">
-          Score: <span className={isPassed ? "text-emerald-600" : "text-amber-600"}>{latestAttempt.percentage}%</span>
+          {t("currentScore") || "Score"}: <span className={isPassed ? "text-emerald-600" : "text-amber-600"}>{latestAttempt.percentage}%</span>
         </h1>
         <p className="text-xs text-slate-500 mt-1">
-          {latestAttempt.quizTitle} • {latestAttempt.score} of {latestAttempt.totalQuestions} Questions Correct
+          {latestAttempt.quizTitle} • {latestAttempt.score} {t("of")} {latestAttempt.totalQuestions} Questions Correct
         </p>
 
         {
@@ -100,7 +100,7 @@ export const QuizResults = () => {
           <div>
             <h3 className="font-bold text-emerald-900 text-sm flex items-center gap-2 mb-2">
               <Compass className="w-4 h-4 text-emerald-600" />
-              Recommended Next Step
+              {t("recommendedAction") || "Recommended Next Step"}
             </h3>
             <p className="text-xs text-slate-700 leading-relaxed font-medium">
               {latestAttempt.recommendedNextStep}
@@ -113,13 +113,13 @@ export const QuizResults = () => {
     className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition-all"
   >
               <TrendingUp className="w-3.5 h-3.5" />
-              <span>Update Competency Profile</span>
+              <span>{t("updateCompetencyProfileBtn")}</span>
             </button>
             <button
     onClick={() => setActiveTab("learning-path")}
     className="px-3 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 font-semibold text-xs border border-slate-200 transition-all"
   >
-              View Learning Path
+              {t("learningPathTitle") || "View Learning Path"}
             </button>
           </div>
         </div>
@@ -178,8 +178,8 @@ export const QuizResults = () => {
                           <span className="font-bold">{letters[oIdx]}.</span>
                           <span>{opt}</span>
                         </div>
-                        {isOptionCorrect && <span className="text-[10px] font-extrabold text-emerald-700 uppercase">Correct Answer</span>}
-                        {isOptionUserSelected && !isCorrect && <span className="text-[10px] font-extrabold text-rose-700 uppercase">Your Answer</span>}
+                        {isOptionCorrect && <span className="text-[10px] font-extrabold text-emerald-700 uppercase">{t("correctAnswer")}</span>}
+                        {isOptionUserSelected && !isCorrect && <span className="text-[10px] font-extrabold text-rose-700 uppercase">{t("yourAnswer")}</span>}
                       </div>;
     })}
                 </div>
@@ -188,7 +188,7 @@ export const QuizResults = () => {
       /* AI Explanation */
     }
                 <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs text-slate-700">
-                  <span className="font-bold text-slate-900 block mb-0.5">Statistical Explanation:</span>
+                  <span className="font-bold text-slate-900 block mb-0.5">{t("statisticalExplanation")}:</span>
                   <p className="leading-relaxed">{q.explanation}</p>
                 </div>
               </div>;
@@ -208,7 +208,7 @@ export const QuizResults = () => {
     onClick={() => setActiveTab("learning-path")}
     className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-md"
   >
-            <span>Proceed to Learning Path</span>
+            <span>{t("learningPathTitle") || "Proceed to Learning Path"}</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>

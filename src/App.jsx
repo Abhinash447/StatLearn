@@ -25,13 +25,17 @@ import { TrainingAnalytics } from "./components/admin/TrainingAnalytics";
 import { EmergingSkills } from "./components/admin/EmergingSkills";
 import { AiWorkforceInsights } from "./components/admin/AiWorkforceInsights";
 export const App = () => {
-  const { isAuthenticated, activeTab, role } = useApp();
+  const { isAuthenticated, activeTab, role, isSidebarOpen, setIsSidebarOpen } = useApp();
+
   if (!isAuthenticated) {
-    return <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col justify-between">
+    return (
+      <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col justify-between">
         <LoginPage />
         <ToastContainer />
-      </div>;
+      </div>
+    );
   }
+
   const renderContent = () => {
     switch (activeTab) {
       // Learner Routes
@@ -80,35 +84,36 @@ export const App = () => {
         return role === "admin" ? <AdminDashboard /> : <LearnerDashboard />;
     }
   };
-  return <div className="h-screen flex flex-col bg-slate-100 text-slate-900 font-sans overflow-hidden">
-      {
-    /* Sticky TopBar */
-  }
+
+  return (
+    <div className="h-screen flex flex-col bg-slate-100 text-slate-900 font-sans overflow-hidden">
+      {/* Sticky TopBar with Interactive Logo Trigger */}
       <TopBar />
 
-      {
-    /* Main App Body with STABLE Sidebar and independent scrollable content area */
-  }
+      {/* Main App Body */}
       <div className="flex-1 flex flex-row overflow-hidden relative">
-        {
-    /* Stable Fixed Sidebar */
-  }
+        {/* Backdrop when sidebar is open */}
+        {isSidebarOpen && (
+          <div
+            onClick={() => setIsSidebarOpen(false)}
+            className="fixed inset-0 bg-slate-950/40 backdrop-blur-[2px] z-30 transition-opacity duration-300 animate-in fade-in"
+          />
+        )}
+
+        {/* Collapsible Drawer Sidebar (opens on logo hover / click) */}
         <Sidebar />
 
-        {
-    /* Dynamic Page Component Workspace - Smoothly scrolls while sidebar stays anchored */
-  }
-        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 pb-28 bg-slate-100/90">
+        {/* Dynamic Page Workspace */}
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 pb-28 bg-slate-100/90 w-full">
           <div className="max-w-7xl mx-auto transition-all duration-200 animate-in fade-in">
             {renderContent()}
           </div>
         </main>
       </div>
 
-      {
-    /* Persistent Judge Demo Toolbar & Floating Alerts */
-  }
+      {/* Persistent Judge Demo Toolbar & Floating Alerts */}
       <JudgeDemoBar />
       <ToastContainer />
-    </div>;
+    </div>
+  );
 };

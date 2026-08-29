@@ -1,8 +1,13 @@
+import { useApp } from "../../context/AppContext";
 import { AnalyticsService } from "../../services/analyticsService";
 import { LineChart, Star } from "lucide-react";
+
 export const TrainingAnalytics = () => {
+  const { t } = useApp();
   const effectiveness = AnalyticsService.getCourseEffectiveness();
-  return <div className="space-y-6 max-w-7xl mx-auto">
+
+  return (
+    <div className="space-y-6 max-w-7xl mx-auto">
       <div>
         <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2.5">
           <LineChart className="w-7 h-7 text-indigo-600" />
@@ -21,16 +26,17 @@ export const TrainingAnalytics = () => {
             <thead>
               <tr className="bg-slate-50 text-slate-600 font-bold border-y border-slate-200 uppercase text-[10px]">
                 <th className="py-3 px-4">Programme Title</th>
-                <th className="py-3 px-4">Provider</th>
+                <th className="py-3 px-4">{t("ecosystemProvider") || "Provider"}</th>
                 <th className="py-3 px-4">Total Enrollments</th>
-                <th className="py-3 px-4">Completion Rate</th>
-                <th className="py-3 px-4">Avg Assessment Score</th>
+                <th className="py-3 px-4">{t("trainingCompletion") || "Completion Rate"}</th>
+                <th className="py-3 px-4">{t("currentScore") || "Avg Assessment Score"}</th>
                 <th className="py-3 px-4">Competency Improvement Delta</th>
                 <th className="py-3 px-4">Learner Rating</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
-              {effectiveness.map((c, i) => <tr key={i} className="hover:bg-slate-50 transition-colors">
+              {effectiveness.map((c, i) => (
+                <tr key={i} className="hover:bg-slate-50 transition-colors">
                   <td className="py-3 px-4 font-bold text-slate-900">{c.courseTitle}</td>
                   <td className="py-3 px-4 text-slate-600 font-medium">{c.provider}</td>
                   <td className="py-3 px-4 text-slate-700 font-mono">{c.enrollments.toLocaleString()}</td>
@@ -47,10 +53,12 @@ export const TrainingAnalytics = () => {
                     <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
                     {c.learnerRating}
                   </td>
-                </tr>)}
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
       </div>
-    </div>;
+    </div>
+  );
 };

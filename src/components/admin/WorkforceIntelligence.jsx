@@ -1,13 +1,17 @@
 import { useState } from "react";
+import { useApp } from "../../context/AppContext";
 import { AnalyticsService } from "../../services/analyticsService";
 import {
   Users,
   Search
 } from "lucide-react";
+
 export const WorkforceIntelligence = () => {
+  const { t } = useApp();
   const departments = AnalyticsService.getDepartments();
   const [selectedDept, setSelectedDept] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+
   const demoOfficials = [
     { id: "usr-10492", name: "Priya Sharma", designation: "Statistical Officer", department: "National Sample Survey (NSS)", competency: 72, aiReadiness: 35, topGap: "AI/ML (40%)", status: "Enrolled in Python" },
     { id: "usr-10493", name: "Rajesh Nair", designation: "Senior Statistical Officer", department: "National Sample Survey (NSS)", competency: 76, aiReadiness: 45, topGap: "GIS (25%)", status: "Completed Sampling" },
@@ -22,15 +26,16 @@ export const WorkforceIntelligence = () => {
     { id: "usr-10502", name: "Deepak Chawla", designation: "Field Superintendent", department: "Field Operations Division (FOD)", competency: 63, aiReadiness: 25, topGap: "CAPI (30%)", status: "Enrolled in Leadership" },
     { id: "usr-10503", name: "Geeta Kumari", designation: "Statistical Officer", department: "Field Operations Division (FOD)", competency: 66, aiReadiness: 30, topGap: "Data Quality (20%)", status: "Completed Quality" }
   ];
+
   const filteredOfficials = demoOfficials.filter((off) => {
     const matchesDept = selectedDept === "all" || off.department.toLowerCase().includes(selectedDept.toLowerCase());
     const matchesSearch = off.name.toLowerCase().includes(searchQuery.toLowerCase()) || off.designation.toLowerCase().includes(searchQuery.toLowerCase()) || off.topGap.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesDept && matchesSearch;
   });
-  return <div className="space-y-6 max-w-7xl mx-auto">
-      {
-    /* Header */
-  }
+
+  return (
+    <div className="space-y-6 max-w-7xl mx-auto">
+      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2.5">
@@ -43,14 +48,13 @@ export const WorkforceIntelligence = () => {
         </div>
       </div>
 
-      {
-    /* Department Cards Grid */
-  }
+      {/* Department Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {departments.map((dept) => <div
-    key={dept.code}
-    className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3"
-  >
+        {departments.map((dept) => (
+          <div
+            key={dept.code}
+            className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3"
+          >
             <div className="flex items-start justify-between">
               <div>
                 <span className="text-[10px] bg-blue-100 text-blue-800 font-extrabold px-2 py-0.5 rounded">
@@ -79,12 +83,11 @@ export const WorkforceIntelligence = () => {
             <div className="text-[11px] text-slate-500 flex items-center justify-between pt-1">
               <span>Top Gaps: <strong className="text-rose-600">{dept.topGaps.join(", ")}</strong></span>
             </div>
-          </div>)}
+          </div>
+        ))}
       </div>
 
-      {
-    /* Personnel Table */
-  }
+      {/* Personnel Table */}
       <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden space-y-4 p-5">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
           <h3 className="font-bold text-slate-900 text-base">Statistical Cadre Personnel Dossier</h3>
@@ -93,19 +96,19 @@ export const WorkforceIntelligence = () => {
             <div className="relative flex-1 sm:w-64">
               <Search className="absolute left-3 top-2.5 w-4 h-4 text-slate-400" />
               <input
-    type="text"
-    placeholder="Search official name, role..."
-    value={searchQuery}
-    onChange={(e) => setSearchQuery(e.target.value)}
-    className="w-full pl-9 pr-3 py-1.5 text-xs rounded-xl border border-slate-300 bg-slate-50 focus:bg-white focus:outline-none"
-  />
+                type="text"
+                placeholder={t("searchPlaceholderLearner") || "Search official name, role..."}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-9 pr-3 py-1.5 text-xs rounded-xl border border-slate-300 bg-slate-50 focus:bg-white focus:outline-none"
+              />
             </div>
 
             <select
-    value={selectedDept}
-    onChange={(e) => setSelectedDept(e.target.value)}
-    className="px-3 py-1.5 text-xs rounded-xl border border-slate-300 bg-slate-50 text-slate-700 focus:outline-none"
-  >
+              value={selectedDept}
+              onChange={(e) => setSelectedDept(e.target.value)}
+              className="px-3 py-1.5 text-xs rounded-xl border border-slate-300 bg-slate-50 text-slate-700 focus:outline-none"
+            >
               <option value="all">All Divisions</option>
               <option value="Sample Survey">NSS</option>
               <option value="Economic">ESD</option>
@@ -121,17 +124,18 @@ export const WorkforceIntelligence = () => {
           <table className="w-full text-left text-xs border-collapse">
             <thead>
               <tr className="bg-slate-50 text-slate-500 font-bold border-y border-slate-200 uppercase tracking-wider text-[10px]">
-                <th className="py-3 px-4">Official Name</th>
-                <th className="py-3 px-4">Designation</th>
-                <th className="py-3 px-4">Department</th>
-                <th className="py-3 px-4">Competency</th>
-                <th className="py-3 px-4">AI Readiness</th>
-                <th className="py-3 px-4">Top Capability Gap</th>
-                <th className="py-3 px-4">Training Status</th>
+                <th className="py-3 px-4">{t("fullNameLabel") || "Official Name"}</th>
+                <th className="py-3 px-4">{t("designationLabel") || "Designation"}</th>
+                <th className="py-3 px-4">{t("departmentLabel") || "Department"}</th>
+                <th className="py-3 px-4">{t("kpiOverallCompetency") || "Competency"}</th>
+                <th className="py-3 px-4">{t("aiReadiness") || "AI Readiness"}</th>
+                <th className="py-3 px-4">{t("gapDeficit") || "Top Capability Gap"}</th>
+                <th className="py-3 px-4">{t("kpiLearningProgress") || "Training Status"}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
-              {filteredOfficials.map((off) => <tr key={off.id} className="hover:bg-slate-50 transition-colors">
+              {filteredOfficials.map((off) => (
+                <tr key={off.id} className="hover:bg-slate-50 transition-colors">
                   <td className="py-3 px-4 font-bold text-slate-900">{off.name}</td>
                   <td className="py-3 px-4 text-slate-600">{off.designation}</td>
                   <td className="py-3 px-4 text-slate-600 font-medium">{off.department}</td>
@@ -151,10 +155,12 @@ export const WorkforceIntelligence = () => {
                       {off.status}
                     </span>
                   </td>
-                </tr>)}
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
       </div>
-    </div>;
+    </div>
+  );
 };

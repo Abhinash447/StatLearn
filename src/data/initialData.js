@@ -45,7 +45,7 @@ export const INITIAL_COMPETENCIES = [
     category: "statistical",
     currentScore: 0,
     requiredScore: 85,
-    gap: 3,
+    gap: 0,
     level: "Unassessed",
     progress: 0,
     priority: "Low",
@@ -58,7 +58,7 @@ export const INITIAL_COMPETENCIES = [
     category: "statistical",
     currentScore: 0,
     requiredScore: 85,
-    gap: 7,
+    gap: 0,
     level: "Unassessed",
     progress: 0,
     priority: "Low",
@@ -71,11 +71,12 @@ export const INITIAL_COMPETENCIES = [
     category: "statistical",
     currentScore: 0,
     requiredScore: 70,
-    gap: 10,
+    gap: 0,
     level: "Unassessed",
     progress: 0,
     priority: "Low",
-    description: "System of National Accounts (SNA), GDP/GVA compilation, input-output tables and sequence of accounts."
+    description: "System of National Accounts (SNA), GDP/GVA compilation, input-output tables and sequence of accounts.",
+    lastAssessed: null
   },
   {
     id: "comp-price-stats",
@@ -83,11 +84,12 @@ export const INITIAL_COMPETENCIES = [
     category: "statistical",
     currentScore: 0,
     requiredScore: 70,
-    gap: 5,
+    gap: 0,
     level: "Unassessed",
     progress: 0,
     priority: "Low",
-    description: "CPI, WPI, index number methodologies (Laspeyres, Paasche, Fisher) and item basket maintenance."
+    description: "CPI, WPI, index number methodologies (Laspeyres, Paasche, Fisher) and item basket maintenance.",
+    lastAssessed: null
   },
   {
     id: "comp-labour-stats",
@@ -95,11 +97,12 @@ export const INITIAL_COMPETENCIES = [
     category: "statistical",
     currentScore: 0,
     requiredScore: 70,
-    gap: 8,
+    gap: 0,
     level: "Unassessed",
     progress: 0,
     priority: "Low",
-    description: "Periodic Labour Force Survey (PLFS) methodologies, worker population ratios and informal sector metrics."
+    description: "Periodic Labour Force Survey (PLFS) methodologies, worker population ratios and informal sector metrics.",
+    lastAssessed: null
   },
   {
     id: "comp-agri-stats",
@@ -107,11 +110,12 @@ export const INITIAL_COMPETENCIES = [
     category: "statistical",
     currentScore: 0,
     requiredScore: 75,
-    gap: 5,
+    gap: 0,
     level: "Unassessed",
     progress: 0,
     priority: "Low",
-    description: "Crop yield estimation, area enumeration, agricultural census data validation and GCES methodology."
+    description: "Crop yield estimation, area enumeration, agricultural census data validation and GCES methodology.",
+    lastAssessed: null
   },
   {
     id: "comp-industrial-stats",
@@ -119,11 +123,12 @@ export const INITIAL_COMPETENCIES = [
     category: "statistical",
     currentScore: 0,
     requiredScore: 75,
-    gap: 7,
+    gap: 0,
     level: "Unassessed",
     progress: 0,
     priority: "Low",
-    description: "Annual Survey of Industries (ASI), Index of Industrial Production (IIP) and factory register reconciliation."
+    description: "Annual Survey of Industries (ASI), Index of Industrial Production (IIP) and factory register reconciliation.",
+    lastAssessed: null
   },
   {
     id: "comp-sdg-indicators",
@@ -131,11 +136,12 @@ export const INITIAL_COMPETENCIES = [
     category: "statistical",
     currentScore: 0,
     requiredScore: 80,
-    gap: 6,
+    gap: 0,
     level: "Unassessed",
     progress: 0,
     priority: "Low",
-    description: "National Indicator Framework (NIF) monitoring, metadata compliance and sub-national localization."
+    description: "National Indicator Framework (NIF) monitoring, metadata compliance and sub-national localization.",
+    lastAssessed: null
   },
   {
     id: "comp-metadata-standards",
@@ -143,11 +149,12 @@ export const INITIAL_COMPETENCIES = [
     category: "statistical",
     currentScore: 0,
     requiredScore: 80,
-    gap: 5,
+    gap: 0,
     level: "Unassessed",
     progress: 0,
     priority: "Low",
-    description: "SDMX (Statistical Data and Metadata eXchange), DDI specification and standardized code lists."
+    description: "SDMX (Statistical Data and Metadata eXchange), DDI specification and standardized code lists.",
+    lastAssessed: null
   },
   {
     id: "comp-data-quality",
@@ -155,11 +162,12 @@ export const INITIAL_COMPETENCIES = [
     category: "statistical",
     currentScore: 0,
     requiredScore: 85,
-    gap: 5,
+    gap: 0,
     level: "Unassessed",
     progress: 0,
     priority: "Low",
-    description: "Generic Statistical Business Process Model (GSBPM), total survey error modeling and data audit protocols."
+    description: "Generic Statistical Business Process Model (GSBPM), total survey error modeling and data audit protocols.",
+    lastAssessed: null
   },
   // Technical Competencies
   {
@@ -168,11 +176,12 @@ export const INITIAL_COMPETENCIES = [
     category: "technical",
     currentScore: 0,
     requiredScore: 80,
-    gap: 25,
+    gap: 0,
     level: "Unassessed",
     progress: 0,
-    priority: "Medium",
-    description: "Pandas, NumPy, automated data wrangling, statistical scripting and repeatable analytic pipelines."
+    priority: "Low",
+    description: "Pandas, NumPy, automated data wrangling, statistical scripting and repeatable analytic pipelines.",
+    lastAssessed: null
   },
   {
     id: "comp-r",
@@ -180,11 +189,12 @@ export const INITIAL_COMPETENCIES = [
     category: "technical",
     currentScore: 0,
     requiredScore: 65,
-    gap: 20,
+    gap: 0,
     level: "Unassessed",
     progress: 0,
-    priority: "Medium",
-    description: "Tidyverse, survey package for complex survey designs, RMarkdown automated report generation."
+    priority: "Low",
+    description: "Tidyverse, survey package for complex survey designs, RMarkdown automated report generation.",
+    lastAssessed: null
   },
   {
     id: "comp-sql",
@@ -192,11 +202,12 @@ export const INITIAL_COMPETENCIES = [
     category: "technical",
     currentScore: 0,
     requiredScore: 80,
-    gap: 8,
+    gap: 0,
     level: "Unassessed",
     progress: 0,
     priority: "Low",
-    description: "Complex joins, window functions, query optimization and large microdata aggregation."
+    description: "Complex joins, window functions, query optimization and large microdata aggregation.",
+    lastAssessed: null
   },
   {
     id: "comp-stata",
@@ -204,11 +215,12 @@ export const INITIAL_COMPETENCIES = [
     category: "technical",
     currentScore: 0,
     requiredScore: 75,
-    gap: 9,
+    gap: 0,
     level: "Unassessed",
     progress: 0,
     priority: "Low",
-    description: "Econometric modeling, do-file workflows and microdata syntax automation."
+    description: "Econometric modeling, do-file workflows and microdata syntax automation.",
+    lastAssessed: null
   },
   {
     id: "comp-gis",
@@ -216,11 +228,12 @@ export const INITIAL_COMPETENCIES = [
     category: "technical",
     currentScore: 0,
     requiredScore: 70,
-    gap: 28,
+    gap: 0,
     level: "Unassessed",
     progress: 0,
-    priority: "High",
-    description: "Geospatial visualization, shapefiles, QGIS integration and geo-tagged survey unit boundary mapping."
+    priority: "Low",
+    description: "Geospatial visualization, shapefiles, QGIS integration and geo-tagged survey unit boundary mapping.",
+    lastAssessed: null
   },
   {
     id: "comp-data-viz",
@@ -228,11 +241,12 @@ export const INITIAL_COMPETENCIES = [
     category: "technical",
     currentScore: 0,
     requiredScore: 80,
-    gap: 18,
+    gap: 0,
     level: "Unassessed",
     progress: 0,
-    priority: "Medium",
-    description: "Interactive dashboarding, narrative charts, color accessibility and official publication graphics."
+    priority: "Low",
+    description: "Interactive dashboarding, narrative charts, color accessibility and official publication graphics.",
+    lastAssessed: null
   },
   {
     id: "comp-ai-ml",
@@ -240,11 +254,12 @@ export const INITIAL_COMPETENCIES = [
     category: "technical",
     currentScore: 0,
     requiredScore: 75,
-    gap: 40,
+    gap: 0,
     level: "Unassessed",
     progress: 0,
-    priority: "Critical",
-    description: "Supervised/unsupervised models for imputation, outlier detection, NLP classification and LLM applications."
+    priority: "Low",
+    description: "Supervised/unsupervised models for imputation, outlier detection, NLP classification and LLM applications.",
+    lastAssessed: null
   },
   {
     id: "comp-cloud",
@@ -252,11 +267,12 @@ export const INITIAL_COMPETENCIES = [
     category: "technical",
     currentScore: 0,
     requiredScore: 70,
-    gap: 40,
+    gap: 0,
     level: "Unassessed",
     progress: 0,
-    priority: "Critical",
-    description: "National Informatics Centre (NIC) cloud services, object storage, serverless pipelines and secure compute."
+    priority: "Low",
+    description: "National Informatics Centre (NIC) cloud services, object storage, serverless pipelines and secure compute.",
+    lastAssessed: null
   },
   {
     id: "comp-apis",
@@ -264,11 +280,12 @@ export const INITIAL_COMPETENCIES = [
     category: "technical",
     currentScore: 0,
     requiredScore: 65,
-    gap: 17,
+    gap: 0,
     level: "Unassessed",
     progress: 0,
-    priority: "Medium",
-    description: "RESTful API consumption, JSON schema validation, open data feeds and automated data harvesting."
+    priority: "Low",
+    description: "RESTful API consumption, JSON schema validation, open data feeds and automated data harvesting.",
+    lastAssessed: null
   },
   {
     id: "comp-open-data",
@@ -276,11 +293,12 @@ export const INITIAL_COMPETENCIES = [
     category: "technical",
     currentScore: 0,
     requiredScore: 75,
-    gap: 15,
+    gap: 0,
     level: "Unassessed",
     progress: 0,
-    priority: "Medium",
-    description: "National Data Sharing & Accessibility Policy (NDSAP), open formats (CSV, Parquet) and anonymization."
+    priority: "Low",
+    description: "National Data Sharing & Accessibility Policy (NDSAP), open formats (CSV, Parquet) and anonymization.",
+    lastAssessed: null
   },
   // Digital Governance
   {
@@ -289,11 +307,12 @@ export const INITIAL_COMPETENCIES = [
     category: "governance",
     currentScore: 0,
     requiredScore: 75,
-    gap: 10,
+    gap: 0,
     level: "Unassessed",
     progress: 0,
     priority: "Low",
-    description: "CERT-In guidelines, phishing defense, credential security, role-based access control and system hardening."
+    description: "CERT-In guidelines, phishing defense, credential security, role-based access control and system hardening.",
+    lastAssessed: null
   },
   {
     id: "comp-data-privacy",
@@ -301,11 +320,12 @@ export const INITIAL_COMPETENCIES = [
     category: "governance",
     currentScore: 0,
     requiredScore: 80,
-    gap: 10,
+    gap: 0,
     level: "Unassessed",
     progress: 0,
     priority: "Low",
-    description: "Digital Personal Data Protection (DPDP) Act 2023, differential privacy, k-anonymity and microdata governance."
+    description: "Digital Personal Data Protection (DPDP) Act 2023, differential privacy, k-anonymity and microdata governance.",
+    lastAssessed: null
   },
   {
     id: "comp-dpi",
@@ -313,11 +333,12 @@ export const INITIAL_COMPETENCIES = [
     category: "governance",
     currentScore: 0,
     requiredScore: 75,
-    gap: 11,
+    gap: 0,
     level: "Unassessed",
     progress: 0,
-    priority: "Medium",
-    description: "India Stack, Aadhaar e-Sign, DigiLocker integration and unified data governance frameworks."
+    priority: "Low",
+    description: "India Stack, Aadhaar e-Sign, DigiLocker integration and unified data governance frameworks.",
+    lastAssessed: null
   },
   // Behavioural & Managerial
   {
@@ -326,11 +347,12 @@ export const INITIAL_COMPETENCIES = [
     category: "behavioral",
     currentScore: 0,
     requiredScore: 75,
-    gap: 5,
+    gap: 0,
     level: "Unassessed",
     progress: 0,
     priority: "Low",
-    description: "Team motivation, field survey delegation, mentorship and strategic goal alignment."
+    description: "Team motivation, field survey delegation, mentorship and strategic goal alignment.",
+    lastAssessed: null
   },
   {
     id: "comp-communication",

@@ -33,7 +33,8 @@ export const LearnerDashboard = () => {
     learningHours,
     coursesCompletedCount,
     assessmentHistory,
-    setActiveTab
+    setActiveTab,
+    t
   } = useApp();
 
   const criticalGaps = skillGaps.filter((g) => g.priority === "Critical" || g.priority === "High");
@@ -65,7 +66,7 @@ export const LearnerDashboard = () => {
               <span>{user?.department || "National Sample Survey (NSS)"} • {user?.designation || "Statistical Officer"}</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
-              Welcome, {user?.name || "Official User"}
+              {t("welcomeBack") || "Welcome"}, {user?.name || "Official User"}
             </h1>
             <p className="text-slate-300 text-sm max-w-2xl">
               {isUnassessed ? (
@@ -82,14 +83,14 @@ export const LearnerDashboard = () => {
               className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-slate-950 font-bold text-xs shadow-lg shadow-amber-500/20 flex items-center gap-2 transition-all"
             >
               <Sparkles className="w-4 h-4 text-slate-950" />
-              <span>{isUnassessed ? "Start Baseline Diagnostic" : "Take AI Assessment"}</span>
+              <span>{isUnassessed ? (t("step1Subtitle") || "Start Baseline Diagnostic") : (t("takeAssessmentBtn") || "Take AI Assessment")}</span>
             </button>
             <button
               onClick={() => setActiveTab("learning-path")}
               className="px-4 py-2.5 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-white font-semibold text-xs border border-slate-600 flex items-center gap-2 transition-all"
             >
               <Compass className="w-4 h-4 text-sky-400" />
-              <span>View Learning Path</span>
+              <span>{t("viewLearningPathBtn") || "View Learning Path"}</span>
             </button>
           </div>
         </div>
@@ -116,7 +117,7 @@ export const LearnerDashboard = () => {
             <div className="bg-slate-800/80 border border-slate-700 p-4 rounded-xl space-y-2 flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-[10px] font-extrabold px-2 py-0.5 rounded bg-blue-600 text-white uppercase">Step 1</span>
+                  <span className="text-[10px] font-extrabold px-2 py-0.5 rounded bg-blue-600 text-white uppercase">{t("step1Title") || "Step 1"}</span>
                   <span className="text-[11px] text-slate-400">10 Questions</span>
                 </div>
                 <h4 className="font-bold text-sm text-white">AI Diagnostic Test</h4>
@@ -128,14 +129,14 @@ export const LearnerDashboard = () => {
                 onClick={() => setActiveTab("assessment")}
                 className="w-full mt-2 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold transition-all"
               >
-                Start Diagnostic →
+                {t("step1Subtitle") || "Start Diagnostic"} →
               </button>
             </div>
 
             <div className="bg-slate-800/80 border border-slate-700 p-4 rounded-xl space-y-2 flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-[10px] font-extrabold px-2 py-0.5 rounded bg-purple-600 text-white uppercase">Step 2</span>
+                  <span className="text-[10px] font-extrabold px-2 py-0.5 rounded bg-purple-600 text-white uppercase">{t("step2Title") || "Step 2"}</span>
                   <span className="text-[11px] text-slate-400">iGOT / NSSTA</span>
                 </div>
                 <h4 className="font-bold text-sm text-white">Enroll in Programs</h4>
@@ -147,14 +148,14 @@ export const LearnerDashboard = () => {
                 onClick={() => setActiveTab("igot-courses")}
                 className="w-full mt-2 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg text-xs font-bold transition-all"
               >
-                Explore Courses →
+                {t("step2Subtitle") || "Explore Courses"} →
               </button>
             </div>
 
             <div className="bg-slate-800/80 border border-slate-700 p-4 rounded-xl space-y-2 flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-[10px] font-extrabold px-2 py-0.5 rounded bg-amber-600 text-white uppercase">Step 3</span>
+                  <span className="text-[10px] font-extrabold px-2 py-0.5 rounded bg-amber-600 text-white uppercase">{t("step3Title") || "Step 3"}</span>
                   <span className="text-[11px] text-slate-400">Upload PDF / DOCX</span>
                 </div>
                 <h4 className="font-bold text-sm text-white">Generate Custom Quiz</h4>
@@ -166,7 +167,7 @@ export const LearnerDashboard = () => {
                 onClick={() => setActiveTab("quiz-generator")}
                 className="w-full mt-2 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg text-xs font-bold transition-all"
               >
-                Upload & Generate →
+                {t("step3Subtitle") || "Upload & Generate"} →
               </button>
             </div>
           </div>
@@ -176,34 +177,34 @@ export const LearnerDashboard = () => {
       {/* KPI Cards Grid */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         <StatCard
-          title="Overall Competency"
+          title={t("kpiOverallCompetency") || "Overall Competency"}
           value={`${overallCompetency}%`}
-          subtitle={isUnassessed ? "Unassessed Baseline" : "Target: 80%"}
+          subtitle={isUnassessed ? (t("unassessedBaseline") || "Unassessed Baseline") : "Target: 80%"}
           icon={Award}
           iconColor="text-blue-600"
           bgColor="bg-blue-50"
           onClick={() => setActiveTab("competencies")}
         />
         <StatCard
-          title="Skill Gap"
+          title={t("kpiSkillGap") || "Skill Gap"}
           value={`${overallGap}%`}
-          subtitle={isUnassessed ? "Pending Calibration" : `${criticalGaps.length} Critical/High`}
+          subtitle={isUnassessed ? (t("pendingCalibration") || "Pending Calibration") : `${criticalGaps.length} Critical/High`}
           icon={TrendingDown}
           iconColor="text-rose-600"
           bgColor="bg-rose-50"
           onClick={() => setActiveTab("skill-gaps")}
         />
         <StatCard
-          title="Learning Progress"
+          title={t("kpiLearningProgress") || "Learning Progress"}
           value={`${learningProgressPercent}%`}
-          subtitle={`${completedStepsCount} of ${learningPath.length} Milestones`}
+          subtitle={`${completedStepsCount} of ${learningPath.length} ${t("milestones") || "Milestones"}`}
           icon={CheckCircle2}
           iconColor="text-emerald-600"
           bgColor="bg-emerald-50"
           onClick={() => setActiveTab("learning-path")}
         />
         <StatCard
-          title="Learning Hours"
+          title={t("kpiLearningHours") || "Learning Hours"}
           value={`${learningHours} hrs`}
           subtitle="Goal: 50 hrs/yr"
           icon={Clock}
@@ -212,7 +213,7 @@ export const LearnerDashboard = () => {
           onClick={() => setActiveTab("igot-courses")}
         />
         <StatCard
-          title="Completed Courses"
+          title={t("kpiCoursesCompleted") || "Completed Courses"}
           value={coursesCompletedCount}
           subtitle="iGOT + NSSTA"
           icon={BookOpenCheck}
@@ -221,7 +222,7 @@ export const LearnerDashboard = () => {
           onClick={() => setActiveTab("igot-courses")}
         />
         <StatCard
-          title="Learning Streak"
+          title={t("kpiStreak") || "Learning Streak"}
           value={`${learningStreak} Days`}
           subtitle={learningStreak > 0 ? "Active Learner" : "Start Today"}
           icon={Flame}
@@ -240,10 +241,10 @@ export const LearnerDashboard = () => {
           <div>
             <div className="flex items-center gap-2">
               <span className="text-xs font-bold text-blue-900 uppercase tracking-wider">
-                StatSkill AI Diagnostic Insight
+                {t("aiDiagnosticTitle")}
               </span>
               <span className="bg-blue-200 text-blue-900 text-[10px] font-bold px-2 py-0.5 rounded-full">
-                {isUnassessed ? "Awaiting Assessment" : "Active Evaluation"}
+                {isUnassessed ? (t("awaitingAssessment") || "Awaiting Assessment") : (t("activeEvaluation") || "Active Evaluation")}
               </span>
             </div>
             <p className="text-xs text-slate-700 mt-1 leading-relaxed">
@@ -263,7 +264,7 @@ export const LearnerDashboard = () => {
           onClick={() => setActiveTab("ai-assistant")}
           className="whitespace-nowrap px-3.5 py-2 rounded-xl bg-white hover:bg-slate-100 text-blue-900 font-bold text-xs border border-blue-200 shadow-sm flex items-center gap-1.5 transition-all flex-shrink-0"
         >
-          <span>Ask AI Assistant</span>
+          <span>{t("askAssistantBtn") || "Ask AI Assistant"}</span>
           <ArrowRight className="w-3.5 h-3.5" />
         </button>
       </div>
@@ -275,14 +276,14 @@ export const LearnerDashboard = () => {
           <div>
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="font-bold text-slate-900 text-base">Competency Profile Radar</h3>
-                <p className="text-xs text-slate-500">Current proficiency vs Required role benchmark</p>
+                <h3 className="font-bold text-slate-900 text-base">{t("radarTitle")}</h3>
+                <p className="text-xs text-slate-500">{t("radarSubtitle")}</p>
               </div>
               <button
                 onClick={() => setActiveTab("competencies")}
                 className="text-xs font-semibold text-blue-600 hover:text-blue-800 flex items-center gap-1"
               >
-                <span>All 23 Skills</span>
+                <span>{t("allSkillsBtn") || "All 23 Skills"}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>
@@ -290,15 +291,15 @@ export const LearnerDashboard = () => {
           </div>
           <div className="mt-4 pt-3 border-t border-slate-100 grid grid-cols-3 text-center text-xs">
             <div>
-              <p className="text-slate-400 text-[11px]">Statistical Avg</p>
+              <p className="text-slate-400 text-[11px]">{t("catStatistical") || "Statistical Avg"}</p>
               <p className="font-bold text-slate-800 text-sm">{categorySummary.statistical.current}%</p>
             </div>
             <div>
-              <p className="text-slate-400 text-[11px]">Technical Avg</p>
+              <p className="text-slate-400 text-[11px]">{t("catTechnical") || "Technical Avg"}</p>
               <p className="font-bold text-slate-800 text-sm">{categorySummary.technical.current}%</p>
             </div>
             <div>
-              <p className="text-slate-400 text-[11px]">Governance Avg</p>
+              <p className="text-slate-400 text-[11px]">{t("catGovernance") || "Governance Avg"}</p>
               <p className="font-bold text-slate-800 text-sm">{categorySummary.governance.current}%</p>
             </div>
           </div>
@@ -309,14 +310,14 @@ export const LearnerDashboard = () => {
           <div>
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="font-bold text-slate-900 text-base">Top Priority Skill Gaps</h3>
+                <h3 className="font-bold text-slate-900 text-base">{t("topPriorityGaps")}</h3>
                 <p className="text-xs text-slate-500">Sorted by empirical deficit (Required Benchmark − Assessed Score)</p>
               </div>
               <button
                 onClick={() => setActiveTab("skill-gaps")}
                 className="text-xs font-semibold text-blue-600 hover:text-blue-800 flex items-center gap-1"
               >
-                <span>Full Gap Analysis</span>
+                <span>{t("fullGapAnalysisBtn") || "Full Gap Analysis"}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>
@@ -328,16 +329,16 @@ export const LearnerDashboard = () => {
                     <Sparkles className="w-6 h-6 text-blue-600" />
                   </div>
                   <div className="space-y-1">
-                    <p className="text-xs font-bold text-slate-800">No Skill Gaps Identified Yet</p>
+                    <p className="text-xs font-bold text-slate-800">{t("noGapsIdentified") || "No Skill Gaps Identified Yet"}</p>
                     <p className="text-[11px] text-slate-500 max-w-xs mx-auto">
-                      Skill gaps are discovered exclusively through completed diagnostic tests and topic assessments.
+                      {t("noGapsSubtitle") || "Skill gaps are discovered exclusively through completed diagnostic tests and topic assessments."}
                     </p>
                   </div>
                   <button
                     onClick={() => setActiveTab("assessment")}
                     className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-sm transition-all"
                   >
-                    Start AI Diagnostic Assessment →
+                    {t("takeAssessmentBtn") || "Start AI Diagnostic Assessment →"}
                   </button>
                 </div>
               ) : (
@@ -368,13 +369,13 @@ export const LearnerDashboard = () => {
                         />
                       </div>
                       <div className="flex justify-between items-center text-[10px] text-slate-500 mt-1 font-medium">
-                        <span>Assessed: {gap.current}%</span>
-                        <span className="font-bold text-slate-700">Target: {gap.required}%</span>
+                        <span>{t("currentScore") || "Assessed"}: {gap.current}%</span>
+                        <span className="font-bold text-slate-700">{t("roleReq") || "Target"}: {gap.required}%</span>
                       </div>
                     </div>
                     <div className="text-right flex-shrink-0">
-                      <span className="text-sm font-black text-rose-600">-{gap.gap}%</span>
-                      <p className="text-[10px] text-slate-500">Deficit</p>
+                      <span className="text-sm font-black text-rose-600">{gap.gap}%</span>
+                      <p className="text-[10px] text-slate-500">{t("gapDeficit") || "Deficit"}</p>
                     </div>
                   </div>
                 ))
@@ -431,14 +432,14 @@ export const LearnerDashboard = () => {
 
             <div className="pt-2 flex items-center justify-between gap-3">
               <span className="text-xs text-slate-400">
-                Provider: <strong className="text-white">{nextLearningStep.provider}</strong>
+                {t("ecosystemProvider") || "Provider"}: <strong className="text-white">{nextLearningStep.provider}</strong>
               </span>
               <button
                 onClick={() => setActiveTab("igot-courses")}
                 className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center gap-1.5 transition-all shadow-md"
               >
                 <Play className="w-3.5 h-3.5 fill-slate-950" />
-                <span>{nextLearningStep.status === "In Progress" ? "Continue Course" : "Enroll in Course"}</span>
+                <span>{nextLearningStep.status === "In Progress" ? (t("continueBtn") || "Continue Course") : (t("enrollBtn") || "Enroll in Course")}</span>
               </button>
             </div>
           </div>
@@ -449,14 +450,14 @@ export const LearnerDashboard = () => {
           <div>
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="font-bold text-slate-900 text-base">Recommended iGOT Karmayogi Courses</h3>
-                <p className="text-xs text-slate-500">Calculated with 5-factor AI matching formula</p>
+                <h3 className="font-bold text-slate-900 text-base">{t("recommendedIgotTitle")}</h3>
+                <p className="text-xs text-slate-500">{t("recommendedIgotSubtitle")}</p>
               </div>
               <button
                 onClick={() => setActiveTab("igot-courses")}
                 className="text-xs font-semibold text-blue-600 hover:text-blue-800 flex items-center gap-1"
               >
-                <span>View Full Catalogue</span>
+                <span>{t("viewCatalogueBtn") || "View Full Catalogue"}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>
@@ -481,7 +482,7 @@ export const LearnerDashboard = () => {
                     onClick={() => setActiveTab("igot-courses")}
                     className="px-3 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 font-semibold text-xs flex items-center gap-1 self-start sm:self-center transition-all"
                   >
-                    <span>{course.isEnrolled ? "Enrolled" : "Enroll"}</span>
+                    <span>{course.isEnrolled ? (t("continueBtn") || "Enrolled") : (t("enrollBtn") || "Enroll")}</span>
                     <ExternalLink className="w-3 h-3" />
                   </button>
                 </div>
@@ -490,7 +491,7 @@ export const LearnerDashboard = () => {
           </div>
 
           <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-            <span>🟢 Connected to iGOT API Ecosystem</span>
+            <span>🟢 {t("igotConnected") || "Connected to iGOT API Ecosystem"}</span>
             <button
               onClick={() => setActiveTab("nssta-training")}
               className="text-indigo-600 font-semibold hover:underline"
