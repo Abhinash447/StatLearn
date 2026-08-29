@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 
 export const LoginPage = ({ onLoginSuccess }) => {
-  const { login, signup } = useApp();
+  const { login, signup, language, setLanguage, t } = useApp();
   
   // Tab Mode: 'login' | 'signup'
   const [authMode, setAuthMode] = useState("login");
@@ -48,30 +48,33 @@ export const LoginPage = ({ onLoginSuccess }) => {
     "National Sample Survey (NSS)",
     "Data Informatics & Innovation Division (DIID)",
     "National Accounts Division (NAD)",
-    "Field Operations Division (FOD)",
     "Economic Statistics Division (ESD)",
+    "Social Statistics Division (SSD)",
     "Price Statistics Division (PSD)",
-    "National Statistical Systems Training Academy (NSSTA)"
+    "Training Division & NSSTA"
   ];
 
   const designations = [
-    "Statistical Officer",
-    "Senior Statistical Officer",
-    "Data Analyst / Scientist",
-    "Assistant Director",
+    "Director General",
+    "Additional Director General",
+    "Deputy Director General",
+    "Director",
+    "Joint Director",
     "Deputy Director",
-    "Director / Joint Director",
-    "Additional Director General"
+    "Assistant Director",
+    "Senior Statistical Officer (SSO)",
+    "Junior Statistical Officer (JSO)",
+    "Statistical Officer"
   ];
 
   // Handle Login Submit
-  const handleLogin = async (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg("");
     setSuccessMsg("");
     
     if (!loginEmail.trim() || !loginPassword.trim()) {
-      setErrorMsg("Please enter both official email and password.");
+      setErrorMsg("Please enter your official email and password.");
       return;
     }
 
@@ -81,22 +84,23 @@ export const LoginPage = ({ onLoginSuccess }) => {
       if (res && res.success) {
         onLoginSuccess?.();
       } else {
-        setErrorMsg(res?.message || "Invalid credentials. Please check your email and password.");
+        setErrorMsg(res?.message || "Invalid official credentials. Please check your email and password.");
       }
     } catch (err) {
-      setErrorMsg("Network error connecting to official authentication service.");
+      setErrorMsg("Network error connecting to official authentication server.");
     } finally {
       setIsSubmitting(false);
     }
   };
+  const handleLogin = handleLoginSubmit;
 
   // Handle Signup Submit
-  const handleSignup = async (e) => {
+  const handleSignupSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg("");
     setSuccessMsg("");
 
-    if (!signupData.name.trim() || !signupData.email.trim() || !signupData.password.trim()) {
+    if (!signupData.name.trim() || !signupData.email.trim() || !signupData.password) {
       setErrorMsg("Please fill in all required official registration fields.");
       return;
     }
@@ -133,6 +137,7 @@ export const LoginPage = ({ onLoginSuccess }) => {
       setIsSubmitting(false);
     }
   };
+  const handleSignup = handleSignupSubmit;
 
   return (
     <div className="min-h-screen bg-slate-950 flex flex-col justify-between text-slate-100 relative overflow-hidden font-sans">
@@ -158,14 +163,50 @@ export const LoginPage = ({ onLoginSuccess }) => {
               </span>
             </div>
             <p className="text-[11px] text-slate-400 hidden sm:block">
-              Ministry of Statistics & Programme Implementation • Govt. of India
+              {t("govTitle")}
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 text-xs font-medium text-slate-300 bg-slate-800/80 px-3 py-1.5 rounded-full border border-slate-700">
-          <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span>Official Portal</span>
+        <div className="flex items-center gap-3">
+          {/* Language Switcher */}
+          <div className="flex items-center bg-slate-800 border border-slate-700 rounded-xl p-0.5 text-xs">
+            <button
+              type="button"
+              onClick={() => setLanguage("en")}
+              className={`px-2.5 py-1 rounded-lg font-bold text-xs transition-all ${
+                language === "en" ? "bg-blue-600 text-white shadow" : "text-slate-400 hover:text-white"
+              }`}
+              title="English"
+            >
+              EN
+            </button>
+            <button
+              type="button"
+              onClick={() => setLanguage("hi")}
+              className={`px-2.5 py-1 rounded-lg font-bold text-xs transition-all ${
+                language === "hi" ? "bg-amber-500 text-slate-950 shadow" : "text-slate-400 hover:text-white"
+              }`}
+              title="हिंदी (Hindi)"
+            >
+              हिंदी
+            </button>
+            <button
+              type="button"
+              onClick={() => setLanguage("te")}
+              className={`px-2.5 py-1 rounded-lg font-bold text-xs transition-all ${
+                language === "te" ? "bg-amber-500 text-slate-950 shadow" : "text-slate-400 hover:text-white"
+              }`}
+              title="తెలుగు (Telugu)"
+            >
+              తెలుగు
+            </button>
+          </div>
+
+          <div className="hidden sm:flex items-center gap-2 text-xs font-medium text-slate-300 bg-slate-800/80 px-3 py-1.5 rounded-full border border-slate-700">
+            <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span>{t("officialPortalBadge")}</span>
+          </div>
         </div>
       </header>
 
@@ -177,15 +218,15 @@ export const LoginPage = ({ onLoginSuccess }) => {
           <div className="text-center space-y-2">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/10 text-blue-300 text-xs font-semibold border border-blue-500/20">
               <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-              <span>Official Skill Intelligence Platform</span>
+              <span>{t("skillPlatformBadge")}</span>
             </div>
             <h2 className="text-2xl font-black text-white tracking-tight">
-              {authMode === "login" ? "Official Portal Sign In" : "Register Official Account"}
+              {authMode === "login" ? t("portalSignIn") : t("registerAccount")}
             </h2>
             <p className="text-xs text-slate-400">
               {authMode === "login"
-                ? "Enter your registered credentials to access your capacity building dashboard."
-                : "Create a new MoSPI official account to build your dynamic competency dossier."}
+                ? t("portalSignInSubtitle")
+                : t("registerAccountSubtitle")}
             </p>
           </div>
 
@@ -205,7 +246,7 @@ export const LoginPage = ({ onLoginSuccess }) => {
               }`}
             >
               <LogIn className="w-3.5 h-3.5" />
-              <span>Sign In</span>
+              <span>{t("signInTab")}</span>
             </button>
 
             <button
@@ -217,7 +258,7 @@ export const LoginPage = ({ onLoginSuccess }) => {
               }}
               className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 ${
                 authMode === "signup"
-                  ? "bg-blue-600 text-white shadow-md"
+                  ? "bg-emerald-600 text-white shadow-md"
                   : "text-slate-400 hover:text-white"
               }`}
             >
@@ -243,10 +284,10 @@ export const LoginPage = ({ onLoginSuccess }) => {
 
           {/* SIGN IN FORM */}
           {authMode === "login" ? (
-            <form onSubmit={handleLogin} className="space-y-4 text-xs">
+            <form onSubmit={handleLoginSubmit} className="space-y-4 text-xs">
               <div>
                 <label className="block font-bold text-slate-300 uppercase tracking-wider mb-1.5">
-                  Official Email Address
+                  {t("emailLabel")}
                 </label>
                 <div className="relative">
                   <input
@@ -263,7 +304,7 @@ export const LoginPage = ({ onLoginSuccess }) => {
 
               <div>
                 <label className="block font-bold text-slate-300 uppercase tracking-wider mb-1.5">
-                  Password
+                  {t("passwordLabel")}
                 </label>
                 <div className="relative">
                   <input
@@ -304,7 +345,7 @@ export const LoginPage = ({ onLoginSuccess }) => {
                   <span>Authenticating...</span>
                 ) : (
                   <>
-                    <span>Sign In to Dashboard</span>
+                    <span>{t("signInSubmitBtn")}</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </>
                 )}
@@ -312,10 +353,10 @@ export const LoginPage = ({ onLoginSuccess }) => {
             </form>
           ) : (
             /* SIGN UP / REGISTRATION FORM */
-            <form onSubmit={handleSignup} className="space-y-3.5 text-xs max-h-[480px] overflow-y-auto pr-1">
+            <form onSubmit={handleSignupSubmit} className="space-y-3.5 text-xs max-h-[480px] overflow-y-auto pr-1">
               <div>
                 <label className="block font-bold text-slate-300 uppercase tracking-wider mb-1">
-                  Full Name
+                  {t("fullNameLabel")}
                 </label>
                 <div className="relative">
                   <input
@@ -332,7 +373,7 @@ export const LoginPage = ({ onLoginSuccess }) => {
 
               <div>
                 <label className="block font-bold text-slate-300 uppercase tracking-wider mb-1">
-                  Official Email
+                  {t("emailLabel")}
                 </label>
                 <div className="relative">
                   <input
@@ -350,21 +391,21 @@ export const LoginPage = ({ onLoginSuccess }) => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block font-bold text-slate-300 uppercase tracking-wider mb-1">
-                    Role
+                    {t("roleLabel")}
                   </label>
                   <select
                     value={signupData.role}
                     onChange={(e) => setSignupData({ ...signupData, role: e.target.value })}
                     className="w-full py-2.5 px-3 rounded-xl border border-slate-700 bg-slate-800/90 text-white focus:ring-2 focus:ring-amber-400 focus:outline-none"
                   >
-                    <option value="learner">Official (Learner)</option>
-                    <option value="admin">Administrator (DIID)</option>
+                    <option value="learner">{t("learnerRole")}</option>
+                    <option value="admin">{t("adminRole")}</option>
                   </select>
                 </div>
 
                 <div>
                   <label className="block font-bold text-slate-300 uppercase tracking-wider mb-1">
-                    Designation
+                    {t("designationLabel")}
                   </label>
                   <select
                     value={signupData.designation}
@@ -382,7 +423,7 @@ export const LoginPage = ({ onLoginSuccess }) => {
 
               <div>
                 <label className="block font-bold text-slate-300 uppercase tracking-wider mb-1">
-                  MoSPI Department / Division
+                  {t("departmentLabel")}
                 </label>
                 <div className="relative">
                   <select
@@ -403,7 +444,7 @@ export const LoginPage = ({ onLoginSuccess }) => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block font-bold text-slate-300 uppercase tracking-wider mb-1">
-                    Password
+                    {t("passwordLabel")}
                   </label>
                   <div className="relative">
                     <input
@@ -420,7 +461,7 @@ export const LoginPage = ({ onLoginSuccess }) => {
 
                 <div>
                   <label className="block font-bold text-slate-300 uppercase tracking-wider mb-1">
-                    Confirm Password
+                    {t("confirmPasswordLabel")}
                   </label>
                   <div className="relative">
                     <input
@@ -446,7 +487,7 @@ export const LoginPage = ({ onLoginSuccess }) => {
                 ) : (
                   <>
                     <UserPlus className="w-3.5 h-3.5" />
-                    <span>Create Official Account & Enter</span>
+                    <span>{t("registerSubmitBtn")}</span>
                   </>
                 )}
               </button>
@@ -457,7 +498,7 @@ export const LoginPage = ({ onLoginSuccess }) => {
           <div className="pt-2 text-center text-xs text-slate-400">
             {authMode === "login" ? (
               <span>
-                New government official?{" "}
+                {t("newOfficialPrompt")}{" "}
                 <button
                   type="button"
                   onClick={() => {
@@ -466,12 +507,12 @@ export const LoginPage = ({ onLoginSuccess }) => {
                   }}
                   className="font-bold text-amber-400 hover:underline"
                 >
-                  Create an account
+                  {t("createAccountLink")}
                 </button>
               </span>
             ) : (
               <span>
-                Already have an official account?{" "}
+                {t("alreadyOfficialPrompt")}{" "}
                 <button
                   type="button"
                   onClick={() => {
@@ -480,7 +521,7 @@ export const LoginPage = ({ onLoginSuccess }) => {
                   }}
                   className="font-bold text-blue-400 hover:underline"
                 >
-                  Sign in here
+                  {t("signInLink")}
                 </button>
               </span>
             )}
